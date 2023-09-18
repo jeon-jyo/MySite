@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javaex.dao.UserDao;
+import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -17,7 +17,7 @@ import com.javaex.vo.UserVo;
 public class UserController {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserService userService;
 
 	// 로그인폼
 	@RequestMapping(value="/loginForm", method= { RequestMethod.GET, RequestMethod.POST})
@@ -33,7 +33,7 @@ public class UserController {
 	public String login(@ModelAttribute UserVo userVo, HttpSession session, Model model) {
 		System.out.println("UserController.login()");
 		
-		UserVo authUser = userDao.userLogin(userVo);
+		UserVo authUser = userService.userLogin(userVo);
 		
 		if(authUser != null) {
 			System.out.println("로그인 성공");
@@ -81,13 +81,8 @@ public class UserController {
 	public String join(@ModelAttribute UserVo userVo) {
 		System.out.println("UserController.join()");
 		
-		int count = userDao.userInsert(userVo);
-		if(count == 1) {
-			System.out.println("등록 성공");
-		} else {
-			System.out.println("등록 실패");
-		}
-		
+		userService.userInsert(userVo);
+
 		// 가입성공 안내페이지 - 포워드
 		return "user/joinOk";
 	}
@@ -101,8 +96,7 @@ public class UserController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		int no = authUser.getNo();
 		
-		UserVo userVo = userDao.userSelect(no);
-		System.out.println("기존 정보 : " + userVo);
+		UserVo userVo = userService.userSelect(no);
 		
 		boolean isFemale = false;
 		if(userVo.getGender().equals("female")) {
@@ -119,24 +113,15 @@ public class UserController {
 	@RequestMapping(value="/modify", method= { RequestMethod.GET, RequestMethod.POST})
 	public String modify(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("UserController.modify()");
-		System.out.println("변경 정보 : " + userVo);
 		
-		int count = userDao.userUpdate(userVo);
-		if(count == 1) {
-			System.out.println("수정 성공");
-			
-			int userNo = userVo.getNo();
-			UserVo vo = userDao.userSelect(userNo);
-			
+		UserVo vo = userService.userUpdate(userVo);
+		if(vo != null) {
 			// 세션 정보 변경
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			authUser.setName(vo.getName());
 			
 			session.setAttribute("authUser", authUser);
 			System.out.println("authUser : " + authUser);
-			
-		} else {
-			System.out.println("수정 실패");
 		}
 		
 		// 메인 - 리다이렉트

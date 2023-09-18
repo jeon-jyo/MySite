@@ -41,7 +41,7 @@ public class BoardService {
 	// 게시판 상세보기 + 수정 폼
 	public BoardVo boardDetail(int boardNo,  boolean value) {
 		System.out.println("BoardService.boardDetail()");
-		System.out.println("게시판 번호 : " + boardNo);
+		System.out.println("boardNo : " + boardNo);
 		
 		BoardVo boardVo = null;
 		if(value) {
@@ -76,7 +76,7 @@ public class BoardService {
 	// 게시판 삭제
 	public void boardDelete(int boardNo) {
 		System.out.println("BoardService.boardUpdate()");
-		System.out.println("게시판 번호 : " + boardNo);
+		System.out.println("boardNo : " + boardNo);
 		
 		int count = boardDao.boardDelete(boardNo);
 		if(count == 1) {
