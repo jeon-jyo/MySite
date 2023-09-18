@@ -20,7 +20,7 @@
 		<collection property="userNo" resultMap="UserMap"></collection>
 	</resultMap>
 	
-	<!-- 게시판 목록 -->
+	<!-- 게시판 목록 + 검색 -->
 	<select id="boardList" parameterType="String" resultMap="BoardMap">
 		<![CDATA[
 			SELECT b.no
@@ -32,50 +32,14 @@
 				   ,u.name userName
 			  FROM board b, users u
 			 WHERE b.user_no = u.no
-			 ORDER BY b.no DESC
 		]]>
-	</select>
-	
-	<select id="boardList2" parameterType="String" resultMap="BoardMap">
+		<if test='value != ""'>
+			<![CDATA[
+				  AND b.title LIKE '%'||#{keyword}||'%'
+			]]>
+		</if>
 		<![CDATA[
-			SELECT b.no
-				   ,b.c
-				   ,b.content
-				   ,b.hit
-				   ,TO_CHAR(b.reg_date, 'YY-MM-DD HH24:MI') regDate
-				   ,u.no userNo
-				   ,u.name userName
-			  FROM board b, users u
-			 WHERE b.user_no = u.no
-		]]>
-		<choose>
-			<when test='value != ""'>
-				<![CDATA[
-					  AND b.title LIKE #{keword}
-					ORDER BY b.no DESC
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
-					ORDER BY b.no ASC
-				]]>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="searchList" parameterType="String" resultMap="BoardMap">
-		<![CDATA[
-			SELECT b.no
-				   ,b.title
-				   ,b.content
-				   ,b.hit
-				   ,TO_CHAR(b.reg_date, 'YY-MM-DD HH24:MI') regDate
-				   ,u.no userNo
-				   ,u.name userName
-			  FROM board b, users u
-			 WHERE b.user_no = u.no
-			   AND b.title LIKE ${value}
-			 ORDER BY b.no DESC
+			ORDER BY b.no DESC
 		]]>
 	</select>
  	

@@ -14,23 +14,11 @@ public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// 게시판 목록
+	// 게시판 목록 + 검색
 	public List<BoardVo> boardList(String keyword) {
 		System.out.println("BoardDao.boardList()");
-		System.out.println("keyword : " + keyword);
 		
-		List<BoardVo> boardList = sqlSession.selectList("board.boardList2", keyword);
-		System.out.println("boardList : " + boardList);
-		
-		return boardList;
-	}
-	
-	public List<BoardVo> searchList(String keyword) {
-		System.out.println("BoardDao.searchList()");
-		System.out.println("keyword : " + keyword);
-		
-		List<BoardVo> boardList = sqlSession.selectList("board.searchList", keyword);
-		System.out.println("boardList : " + boardList);
+		List<BoardVo> boardList = sqlSession.selectList("board.boardList", keyword);
 		
 		return boardList;
 	}
