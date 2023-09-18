@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rboard">
+
+	<resultMap id="UserMap" type="com.javaex.vo.UserVo">
+		<result column="userNo" property="no"></result>
+		<result column="id" property="id"></result>
+		<result column="password" property="password"></result>
+		<result column="userName" property="name"></result>
+		<result column="gender" property="gender"></result>
+	</resultMap>
+	
+	<resultMap id="RBoardMap" type="com.javaex.vo.RBoardVo">
+		<result column="no" property="no"></result>
+		<result column="title" property="title"></result>
+		<result column="content" property="content"></result>
+		<result column="hit" property="hit"></result>
+		<result column="regDate" property="regDate"></result>
+		<result column="groupNo" property="groupNo"></result>
+		<result column="orderNo" property="orderNo"></result>
+		<result column="depth" property="depth"></result>
+		<collection property="userNo" resultMap="UserMap"></collection>
+	</resultMap>
+	
+	<!-- 게시판 목록 + 검색 -->
+	<select id="boardList" parameterType="String" resultMap="RBoardMap">
+		<![CDATA[
+			SELECT r.no
+			       ,u.no userNo
+			       ,u.name userName
+			       ,r.title
+			       ,r.content
+			       ,r.hit
+			       ,TO_CHAR(r.reg_date, 'YY-MM-DD HH24:MI') regDate
+			       ,r.group_no
+			       ,r.order_no
+			       ,r.depth
+			  FROM rboard r, users u
+			 WHERE r.user_no = u.no
+		]]>
+		<if test='value != ""'>
+			<![CDATA[
+				  AND r.title LIKE '%'||#{keyword}||'%'
+			]]>
+		</if>
+		<![CDATA[
+			ORDER BY r.no DESC
+		]]>
+	</select>
+ 	
+</mapper>
