@@ -30,7 +30,7 @@
 						<ul>
 							<li>홈</li>
 							<li>게시판</li>
-							<li class="last">일반게시판</li>
+							<li class="last">댓글게시판</li>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -39,7 +39,11 @@
 	
 				<div id="board">
 					<div id="read">
-						<form action="#" method="get">
+						<form action="${pageContext.request.contextPath}/rBoard/writeForm" method="get">
+						
+							<input type="hidden" name="groupNo" value="${boardVo.groupNo}">
+							<input type="hidden" name="orderNo" value="${boardVo.orderNo}">
+							<input type="hidden" name="depth" value="${boardVo.depth}">
 						
 							<!-- 작성자 -->
 							<div class="form-group">
@@ -71,9 +75,10 @@
 							</div>
 							
 							<c:if test="${authUser.name == boardVo.userNo.name}">
-								<a id="btn_modify" href="${pageContext.request.contextPath}/board/modifyForm/${boardVo.no }">수정</a>
+								<a id="btn_modify" href="${pageContext.request.contextPath}/rBoard/modifyForm/${boardVo.no }">수정</a>
 							</c:if>
-							<a id="btn_modify" href="${pageContext.request.contextPath}/board/list">목록</a>
+							<a id="btn_modify" href="${pageContext.request.contextPath}/rBoard/list">목록</a>
+							<button id="btn_modify" type="submit">글쓰기</button>
 							
 						</form>
 						<!-- //form -->

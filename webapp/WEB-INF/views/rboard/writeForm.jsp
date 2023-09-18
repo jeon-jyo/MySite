@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,7 @@
 						<ul>
 							<li>홈</li>
 							<li>게시판</li>
-							<li class="last">일반게시판</li>
+							<li class="last">댓글게시판</li>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -38,7 +39,13 @@
 	
 				<div id="board">
 					<div id="writeForm">
-						<form action="${pageContext.request.contextPath}/board/write" method="get">
+						<form action="${pageContext.request.contextPath}/rBoard/write" method="get">
+							
+							<c:if test="${!empty param.groupNo }">
+								<input type="hidden" name="groupNo" value="${param.groupNo}">
+								<input type="hidden" name="orderNo" value="${param.orderNo}">
+								<input type="hidden" name="depth" value="${param.depth}">
+							</c:if>
 							
 							<!-- 제목 -->
 							<div class="form-group">
@@ -52,9 +59,9 @@
 								<textarea id="txt-content" name="content"></textarea>
 							</div>
 							
-							<a id="btn_cancel" href="${pageContext.request.contextPath}/board/list">취소</a>
+							<a id="btn_cancel" href="${pageContext.request.contextPath}/rBoard/list">취소</a>
 							<button id="btn_add" type="submit">등록</button>
-							
+
 						</form>
 						<!-- //form -->
 					</div>

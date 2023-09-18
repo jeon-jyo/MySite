@@ -75,7 +75,7 @@ public class BoardService {
 	
 	// 게시판 삭제
 	public void boardDelete(int boardNo) {
-		System.out.println("BoardService.boardUpdate()");
+		System.out.println("BoardService.boardDelete()");
 		System.out.println("boardNo : " + boardNo);
 		
 		int count = boardDao.boardDelete(boardNo);

@@ -29,7 +29,7 @@
 						<ul>
 							<li>홈</li>
 							<li>게시판</li>
-							<li class="last">일반게시판</li>
+							<li class="last">댓글게시판</li>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -38,7 +38,7 @@
 	
 				<div id="board">
 					<div id="modifyForm">
-						<form action="${pageContext.request.contextPath}/board/modify" method="get">
+						<form action="${pageContext.request.contextPath}/rBoard/modify" method="get">
 						
 							<input type="hidden" name="no" value="${boardVo.no }">
 						
@@ -71,7 +71,7 @@
 								<textarea id="txt-content" name="content">${boardVo.content }</textarea>
 							</div>
 							
-							<a id="btn_cancel" href="${pageContext.request.contextPath}/board/list">취소</a>
+							<a id="btn_cancel" href="${pageContext.request.contextPath}/rBoard/list">취소</a>
 							<button id="btn_modify" type="submit">수정</button>
 							
 						</form>

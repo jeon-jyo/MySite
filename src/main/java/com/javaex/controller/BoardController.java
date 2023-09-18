@@ -66,7 +66,7 @@ public class BoardController {
 		System.out.println("BoardController.write()");
 
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		boardVo.setNo(authUser.getNo());
+		boardVo.setUserNo(authUser);
 		
 		boardService.boardInsert(boardVo);
 

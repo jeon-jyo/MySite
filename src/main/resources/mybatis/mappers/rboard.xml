@@ -33,8 +33,8 @@
 			       ,r.content
 			       ,r.hit
 			       ,TO_CHAR(r.reg_date, 'YY-MM-DD HH24:MI') regDate
-			       ,r.group_no
-			       ,r.order_no
+			       ,r.group_no groupNo
+			       ,r.order_no orderNo
 			       ,r.depth
 			  FROM rboard r, users u
 			 WHERE r.user_no = u.no
@@ -45,8 +45,85 @@
 			]]>
 		</if>
 		<![CDATA[
-			ORDER BY r.no DESC
+			ORDER BY r.group_no, r.order_no DESC
 		]]>
 	</select>
+	
+	<!-- 게시판 작성 -->
+	<insert id="boardInsert" parameterType="com.javaex.vo.RBoardVo">
+		<![CDATA[
+			INSERT INTO rboard
+		]]>
+		<if test="groupNo == 0">
+			<![CDATA[
+				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, seq_rboard_no.NEXTVAL, 1, 0)
+			]]>
+		</if>
+		<if test="groupNo != 0">
+			<![CDATA[
+				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, #{groupNo}, #{orderNo}+1, #{depth}+1)
+			]]>
+		</if>
+	</insert>
+	
+	<!-- 그룹 순서 -->
+	<update id="boardOrderCount" parameterType="com.javaex.vo.RBoardVo">
+		<![CDATA[
+			UPDATE rboard
+			   SET order_no = order_no+1
+			 WHERE group_no = #{groupNo}
+			   AND order_no > #{orderNo}
+		]]>
+	</update>
+	
+	<!-- 게시판 조회수 -->
+	<update id="boardHitCount" parameterType="int">
+		<![CDATA[
+			UPDATE rboard
+			   SET hit = (SELECT hit
+			   				FROM rboard
+			   			   WHERE no = #{no})+1
+			 WHERE no = #{no}
+		]]>
+	</update>
+	
+	<!-- 게시판 상세보기 -->
+	<select id="boardDetail" parameterType="int" resultMap="RBoardMap">
+		<![CDATA[
+			SELECT r.no
+			       ,u.no userNo
+			       ,u.name userName
+			       ,r.title
+			       ,r.content
+			       ,r.hit
+			       ,TO_CHAR(r.reg_date, 'YY-MM-DD HH24:MI') regDate
+			       ,r.group_no groupNo
+			       ,r.order_no orderNo
+			       ,r.depth
+			  FROM rboard r, users u
+			 WHERE r.user_no = u.no
+			   AND r.no = #{no}
+			 ORDER BY r.no DESC
+		]]>
+	</select>
+	
+	<!-- 게시판 수정 -->
+	<update id="boardUpdate" parameterType="com.javaex.vo.RBoardVo">
+		<![CDATA[
+			UPDATE rboard
+			   SET title = #{title}
+			   	   ,content = #{content}
+			 WHERE no = #{no}
+		]]>
+	</update>
+	
+	<!-- 게시판 삭제 -->
+	<delete id="boardDelete" parameterType="int">
+ 		<![CDATA[
+			DELETE FROM rboard
+			 WHERE no = #{no}
+		]]>
+ 	</delete>
+ 	
  	
 </mapper>

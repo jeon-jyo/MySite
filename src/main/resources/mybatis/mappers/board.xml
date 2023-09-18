@@ -47,7 +47,7 @@
 	<insert id="boardInsert" parameterType="com.javaex.vo.BoardVo">
 		<![CDATA[
 			INSERT INTO board
-			VALUES (seq_board_no.NEXTVAL, #{title}, #{content}, 0, sysdate, #{no})
+			VALUES (seq_board_no.NEXTVAL, #{title}, #{content}, 0, sysdate, #{userNo.no})
 		]]>
 	</insert>
 	
