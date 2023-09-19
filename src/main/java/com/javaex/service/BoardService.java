@@ -20,7 +20,7 @@ public class BoardService {
 		System.out.println("keyword : " + keyword);
 		
 		List<BoardVo> boardList = boardDao.boardList(keyword);
-		System.out.println(boardList);
+//		System.out.println(boardList);
 		
 		return boardList;
 	}

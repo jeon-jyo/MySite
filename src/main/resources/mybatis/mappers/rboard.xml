@@ -20,6 +20,7 @@
 		<result column="groupNo" property="groupNo"></result>
 		<result column="orderNo" property="orderNo"></result>
 		<result column="depth" property="depth"></result>
+		<result column="show" property="show"></result>
 		<collection property="userNo" resultMap="UserMap"></collection>
 	</resultMap>
 	
@@ -36,6 +37,7 @@
 			       ,r.group_no groupNo
 			       ,r.order_no orderNo
 			       ,r.depth
+			       ,r.show
 			  FROM rboard r, users u
 			 WHERE r.user_no = u.no
 		]]>
@@ -56,12 +58,12 @@
 		]]>
 		<if test="groupNo == 0">
 			<![CDATA[
-				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, seq_rboard_no.NEXTVAL, 1, 0)
+				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, seq_rboard_no.NEXTVAL, 1, 0, 'Y')
 			]]>
 		</if>
 		<if test="groupNo != 0">
 			<![CDATA[
-				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, #{groupNo}, #{orderNo}+1, #{depth}+1)
+				VALUES (seq_rboard_no.NEXTVAL, #{userNo.no}, #{title}, #{content}, 0, sysdate, #{groupNo}, #{orderNo}+1, #{depth}+1, 'Y')
 			]]>
 		</if>
 	</insert>
@@ -100,6 +102,7 @@
 			       ,r.group_no groupNo
 			       ,r.order_no orderNo
 			       ,r.depth
+			       ,r.show
 			  FROM rboard r, users u
 			 WHERE r.user_no = u.no
 			   AND r.no = #{no}
@@ -116,11 +119,40 @@
 			 WHERE no = #{no}
 		]]>
 	</update>
+
+	<!-- 그룹 내 큰 순서 -->
+	<select id="boardMaxOrder" parameterType="com.javaex.vo.RBoardVo" resultMap="RBoardMap">
+		<![CDATA[
+			SELECT no
+			       ,group_no groupNo
+			       ,order_no orderNo
+			       ,depth
+			  FROM rboard
+			 WHERE group_no = #{groupNo}
+			   AND order_no IN (SELECT MAX(order_no)
+			                      FROM rboard
+			                     WHERE group_no = #{groupNo}
+			                     GROUP BY group_no)
+		]]>
+	</select>
 	
+	<!-- 삭제 처리 -->
+	<update id="boardDeleteUpdate" parameterType="com.javaex.vo.RBoardVo">
+		<![CDATA[
+			UPDATE rboard
+			   SET title = #{content}
+			   	   ,content = #{content}
+			   	   ,user_no = 0
+			   	   ,show = 'N'
+			 WHERE no = #{no}
+		]]>
+	</update>
+
 	<!-- 게시판 삭제 -->
 	<delete id="boardDelete" parameterType="int">
  		<![CDATA[
-			DELETE FROM rboard
+			UPDATE rboard
+			   SET show = 'N'
 			 WHERE no = #{no}
 		]]>
  	</delete>

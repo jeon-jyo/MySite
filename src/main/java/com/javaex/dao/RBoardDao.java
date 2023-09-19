@@ -67,6 +67,24 @@ public class RBoardDao {
 		
 		return count;
 	}
+	
+	// 그룹 내 큰 순서
+	public RBoardVo boardMaxOrder(int no) {
+		System.out.println("RBoardDao.boardMaxOrder()");
+
+		RBoardVo rBoardVo = sqlSession.selectOne("rboard.boardMaxOrder", no);
+
+		return rBoardVo;
+	}
+
+	// 삭제 처리
+	public int boardDeleteUpdate(RBoardVo rBoardVo) {
+		System.out.println("RBoardDao.boardDeleteUpdate()");
+
+		int count = sqlSession.update("rboard.boardDeleteUpdate", rBoardVo);
+		
+		return count;
+	}
 
 	// 게시판 삭제
 	public int boardDelete(int no) {

@@ -11,12 +11,12 @@ public class RBoardVo {
 	private int groupNo;
 	private int orderNo;
 	private int depth;
+	private String show;
 	
 	public RBoardVo() {}
 
 	public RBoardVo(int no, UserVo userNo, String title, String content, int hit, String regDate, int groupNo,
-			int orderNo, int depth) {
-		super();
+			int orderNo, int depth, String show) {
 		this.no = no;
 		this.userNo = userNo;
 		this.title = title;
@@ -26,6 +26,7 @@ public class RBoardVo {
 		this.groupNo = groupNo;
 		this.orderNo = orderNo;
 		this.depth = depth;
+		this.show = show;
 	}
 
 	public int getNo() {
@@ -82,11 +83,17 @@ public class RBoardVo {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
+	public String getShow() {
+		return show;
+	}
+	public void setShow(String show) {
+		this.show = show;
+	}
 
 	@Override
 	public String toString() {
 		return "RBoardVo [no=" + no + ", userNo=" + userNo + ", title=" + title + ", content=" + content + ", hit="
 				+ hit + ", regDate=" + regDate + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth
-				+ "]";
+				+ ", show=" + show + "]";
 	}
 }

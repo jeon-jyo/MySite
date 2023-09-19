@@ -116,11 +116,11 @@ public class RBoardController {
 	}
 	
 	// 게시판 삭제
-	@RequestMapping(value="/delete/{no}", method= { RequestMethod.GET, RequestMethod.POST})
-	public String delete(@PathVariable(value="no") int boardNo, Model model) {
+	@RequestMapping(value="/delete", method= { RequestMethod.GET, RequestMethod.POST})
+	public String delete(@ModelAttribute RBoardVo rBoardVo) {
 		System.out.println("RBoardController.delete()");
 		
-		rBoardService.boardDelete(boardNo);
+		rBoardService.boardDelete(rBoardVo);
 
 		// 게시판 목록 - 리다이렉트
 		return "redirect:/rBoard/list";

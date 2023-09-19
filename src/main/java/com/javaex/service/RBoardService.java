@@ -20,7 +20,7 @@ public class RBoardService {
 		System.out.println("keyword : " + keyword);
 		
 		List<RBoardVo> boardList = rBoardDao.boardList(keyword);
-		System.out.println(boardList);
+//		System.out.println(boardList);
 		
 		return boardList;
 	}
@@ -82,15 +82,30 @@ public class RBoardService {
 	}
 	
 	// 게시판 삭제
-	public void boardDelete(int boardNo) {
+	public void boardDelete(RBoardVo rBoardVo) {
 		System.out.println("RBoardService.boardDelete()");
-		System.out.println("boardNo : " + boardNo);
+//		System.out.println("groupNo, no : " + rBoardVo.getGroupNo() + ", " + rBoardVo.getNo());
 		
-		int count = rBoardDao.boardDelete(boardNo);
-		if(count == 1) {
-			System.out.println("삭제 성공");
+		RBoardVo vo = rBoardDao.boardMaxOrder(rBoardVo.getGroupNo());
+//		System.out.println("MAX : " + vo.getGroupNo() + ", " + vo.getNo());
+
+		if(vo.getNo() == rBoardVo.getNo()) {
+			
+			int count = rBoardDao.boardDelete(rBoardVo.getNo());
+			if(count == 1) {
+				System.out.println("삭제 성공");
+			} else {
+				System.out.println("삭제 실패");
+			}
 		} else {
-			System.out.println("삭제 실패");
+			rBoardVo.setContent("삭제 되었습니다.");
+			
+			int count = rBoardDao.boardDeleteUpdate(rBoardVo);
+			if(count == 1) {
+				System.out.println("처리 성공");
+			} else {
+				System.out.println("처리 실패");
+			}
 		}
 	}
 

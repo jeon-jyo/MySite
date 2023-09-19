@@ -63,13 +63,29 @@
 							<c:forEach items="${boardList }" var="boardVo">
 								<tr>
 									<td>${boardVo.no }</td>
-									<td><a href="${pageContext.request.contextPath}/rBoard/detail/${boardVo.no }">${boardVo.title }</a></td>
+									<td>
+										<a href="${pageContext.request.contextPath}/rBoard/detail/${boardVo.no }">
+											<c:choose>
+												<c:when test="${boardVo.depth != 0}">
+													<c:forEach var="i" begin="1" end="${boardVo.depth }">
+													+
+													</c:forEach>
+													${boardVo.title }
+												</c:when>
+												<c:otherwise>
+													${boardVo.title }
+												</c:otherwise>
+											</c:choose>
+										</a>
+									</td>
 									<td>${boardVo.userNo.name }</td>
 									<td>${boardVo.hit }</td>
 									<td>${boardVo.regDate }</td>
 									<c:choose>
 										<c:when test="${authUser.name == boardVo.userNo.name}">
-											<td><a href="${pageContext.request.contextPath}/rBoard/delete/${boardVo.no }">[삭제]</a></td>
+											<c:if test="${boardVo.show =='Y'}">
+												<td><a href="${pageContext.request.contextPath}/rBoard/delete?no=${boardVo.no }&groupNo=${boardVo.groupNo }">[삭제]</a></td>
+											</c:if>
 										</c:when>
 										<c:otherwise>
 											<td></td>

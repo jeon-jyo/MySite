@@ -118,7 +118,7 @@ public class BoardController {
 	
 	// 게시판 삭제
 	@RequestMapping(value="/delete/{no}", method= { RequestMethod.GET, RequestMethod.POST})
-	public String delete(@PathVariable(value="no") int boardNo, Model model) {
+	public String delete(@PathVariable(value="no") int boardNo) {
 		System.out.println("BoardController.delete()"); 
 		
 		boardService.boardDelete(boardNo);
