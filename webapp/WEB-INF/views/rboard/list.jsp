@@ -63,20 +63,21 @@
 							<c:forEach items="${boardList }" var="boardVo">
 								<tr>
 									<td>${boardVo.no }</td>
-									<td>
-										<a href="${pageContext.request.contextPath}/rBoard/detail/${boardVo.no }">
-											<c:choose>
-												<c:when test="${boardVo.depth != 0}">
-													<c:forEach var="i" begin="1" end="${boardVo.depth }">
+									<td class="text-left">
+										<c:if test="${boardVo.show =='Y'}">
+											<a href="${pageContext.request.contextPath}/rBoard/detail/${boardVo.no }">
+												<c:forEach var="i" begin="1" end="${boardVo.depth }">
 													+
-													</c:forEach>
-													${boardVo.title }
-												</c:when>
-												<c:otherwise>
-													${boardVo.title }
-												</c:otherwise>
-											</c:choose>
-										</a>
+												</c:forEach>
+												${boardVo.title }
+											</a>
+										</c:if>
+										<c:if test="${boardVo.show =='N'}">
+											<c:forEach var="i" begin="1" end="${boardVo.depth }">
+												+
+											</c:forEach>
+											${boardVo.title }
+										</c:if>
 									</td>
 									<td>${boardVo.userNo.name }</td>
 									<td>${boardVo.hit }</td>
