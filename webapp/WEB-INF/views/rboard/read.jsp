@@ -40,11 +40,11 @@
 				<div id="board">
 					<div id="read">
 						<form action="${pageContext.request.contextPath}/rBoard/writeForm" method="get">
-						
+							
 							<input type="hidden" name="groupNo" value="${boardVo.groupNo}">
 							<input type="hidden" name="orderNo" value="${boardVo.orderNo}">
 							<input type="hidden" name="depth" value="${boardVo.depth}">
-						
+							
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>
@@ -68,7 +68,7 @@
 								<span class="form-text">제 목</span>
 								<span class="form-value">${boardVo.title }</span>
 							</div>
-						
+							
 							<!-- 내용 -->
 							<div id="txt-content">
 								<span class="form-value">${boardVo.content }</span>

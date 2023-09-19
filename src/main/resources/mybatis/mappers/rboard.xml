@@ -45,7 +45,7 @@
 			]]>
 		</if>
 		<![CDATA[
-			ORDER BY r.group_no, r.order_no DESC
+			ORDER BY r.group_no DESC, r.order_no ASC
 		]]>
 	</select>
 	
@@ -124,6 +124,5 @@
 			 WHERE no = #{no}
 		]]>
  	</delete>
- 	
  	
 </mapper>

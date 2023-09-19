@@ -107,7 +107,7 @@ public class RBoardController {
 	// 게시판 수정
 	@RequestMapping(value="/modify", method= { RequestMethod.GET, RequestMethod.POST})
 	public String modify(@ModelAttribute RBoardVo rBoardVo) {
-		System.out.println("RBoardController.modify()"); 
+		System.out.println("RBoardController.modify()");
 		
 		rBoardService.boardUpdate(rBoardVo);
 		
@@ -118,7 +118,7 @@ public class RBoardController {
 	// 게시판 삭제
 	@RequestMapping(value="/delete/{no}", method= { RequestMethod.GET, RequestMethod.POST})
 	public String delete(@PathVariable(value="no") int boardNo, Model model) {
-		System.out.println("RBoardController.delete()"); 
+		System.out.println("RBoardController.delete()");
 		
 		rBoardService.boardDelete(boardNo);
 

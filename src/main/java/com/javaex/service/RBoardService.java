@@ -24,27 +24,21 @@ public class RBoardService {
 		
 		return boardList;
 	}
-
+	
 	// 게시판 작성
 	public void boardInsert(RBoardVo rBoardVo) {
 		System.out.println("RBoardService.boardInsert()");
 		System.out.println("rBoardVo : " + rBoardVo);
 		
-		int count;
-		
-		if(rBoardVo.getGroupNo() == 0) {
-			count = rBoardDao.boardInsert(rBoardVo);
-
-		} else {
-			count = rBoardDao.boardOrderCount(rBoardVo);
+		if(rBoardVo.getGroupNo() != 0) {
+			int orderCount = rBoardDao.boardOrderCount(rBoardVo);
 			
-			if(count == 1) {
+			if(orderCount > 0) {
 				System.out.println("그룹 순서 업데이트");
-				
-				count = rBoardDao.boardInsert(rBoardVo);
 			}
 		}
 		
+		int count = rBoardDao.boardInsert(rBoardVo);
 		if(count == 1) {
 			System.out.println("등록 성공");
 		} else {
@@ -100,7 +94,4 @@ public class RBoardService {
 		}
 	}
 
-
-
-	
 }
