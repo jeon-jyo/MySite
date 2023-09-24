@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
@@ -74,6 +75,17 @@ public class UserController {
 		
 		// 회원가입폼 - 포워드
 		return "user/joinForm";
+	}
+	
+	// 중복체크 ajax
+	@ResponseBody
+	@RequestMapping(value="/checkId", method= { RequestMethod.GET, RequestMethod.POST})
+	public String checkId(@ModelAttribute UserVo userVo) {
+		System.out.println("UserController.checkId()");
+		
+		String result = userService.checkId(userVo);
+
+		return result;
 	}
 	
 	// 회원가입

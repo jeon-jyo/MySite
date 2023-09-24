@@ -35,8 +35,29 @@ public class GuestService {
 		}
 	}
 	
+	// 방명록 작성 ajax
+	public GuestVo guestWrite(GuestVo guestVo) {
+		System.out.println("GuestService.guestWrite()");
+		// System.out.println("1 : " + guestVo);	// no=0
+		
+		int count = guestDao.selectKey(guestVo);
+		// System.out.println("2 : " + guestVo);	// no=24
+		
+		if(count != 0) {
+			System.out.println("등록 성공");
+		} else {
+			System.out.println("등록 실패");
+		}
+
+		// no 의 데이터 1개
+		int no = guestVo.getNo();
+		GuestVo vo = guestDao.selectGuestOne(no);
+		
+		return vo;
+	}
+	
 	// 방명록 삭제
-	public void guestDelete(GuestVo guestVo) {
+	public int guestDelete(GuestVo guestVo) {
 		System.out.println("GuestService.guestDelete()");
 		System.out.println("guestVo : " + guestVo);
 		
@@ -46,6 +67,8 @@ public class GuestService {
 		} else {
 			System.out.println("삭제 실패");
 		}
+		
+		return count;
 	}
 	
 }

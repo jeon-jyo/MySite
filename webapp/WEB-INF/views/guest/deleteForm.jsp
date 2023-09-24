@@ -16,13 +16,9 @@
 		<!-- //header -->
 
 		<div id="container" class="clearfix">
-			<div id="aside">
-				<h2>방명록</h2>
-				<ul>
-					<li>일반방명록</li>
-					<li>ajax방명록</li>
-				</ul>
-			</div>
+		
+			<!-- aside -->
+			<jsp:include page="/WEB-INF/views/include/asideGuest.jsp"></jsp:include>
 			<!-- //aside -->
 
 			<div id="content">

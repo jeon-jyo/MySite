@@ -32,6 +32,27 @@ public class GuestDao {
 		return count;
 	}
 	
+	// 방명록 작성 ajax
+	public int selectKey(GuestVo guestVo) {
+		System.out.println("GuestDao.selectKey()");
+		// System.out.println("1 : " + guestVo);	// no=0
+
+		int count = sqlSession.insert("guest.insertSelectKey", guestVo);
+		// System.out.println("2 : " + guestVo);	// no=24
+
+		return count;
+	}
+	
+	// 방명록 데이터 1개 ajax
+	public GuestVo selectGuestOne(int no) {
+		System.out.println("GuestDao.selectGuestOne()");
+		
+		GuestVo guestVo = sqlSession.selectOne("guest.selectGuestOne", no);
+	
+		return guestVo;
+		// return sqlSession.selectOne("guest.selectGuestOne", no);
+	}
+	
 	// 방명록 삭제
 	public int guestDelete(GuestVo guestVo) {
 		System.out.println("GuestDao.guestDelete()");
@@ -40,5 +61,5 @@ public class GuestDao {
 		
 		return count;
 	}
-	
+
 }

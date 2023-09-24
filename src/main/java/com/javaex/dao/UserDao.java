@@ -21,6 +21,15 @@ public class UserDao {
 		return authUser;
 	}
 	
+	// 중복체크 ajax
+	public UserVo checkId(UserVo userVo) {
+		System.out.println("UserDao.checkId()");
+		
+		UserVo vo = sqlSession.selectOne("user.selectcheckId", userVo);
+		
+		return vo;
+	}
+	
 	// 회원가입
 	public int userInsert(UserVo userVo) {
 		System.out.println("UserDao.userInsert()");

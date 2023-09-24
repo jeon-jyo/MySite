@@ -7,6 +7,7 @@
 <title>joinForm</title>
 <link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -43,13 +44,19 @@
 	
 				<div id="user">
 					<div id="joinForm">
-						<form action="${pageContext.request.contextPath}/user/join" method="get">
+						<form id="join-Form" action="${pageContext.request.contextPath}/user/join" method="get">
 							
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label>
 								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
-								<button type="button" id="">중복체크</button>
+								<button type="button" id="btn-checkId">중복체크</button>
+								<input type="hidden" id="input-checked" value="false">
+							</div>
+							
+							<!-- 중복체크 안내 -->
+							<div id="check-id">
+								<span class="checkId-f">아이디 중복체크를 해주세요.</span>
 							</div>
 	
 							<!-- 비밀번호 -->
@@ -78,7 +85,7 @@
 							<div class="form-group">
 								<span class="form-text">약관동의</span>
 								
-								<input type="checkbox" id="chk-agree" value="" name="">
+								<input type="checkbox" id="chk-agree" value="" name="chk-agree">
 								<label for="chk-agree">서비스 약관에 동의합니다.</label> 
 							</div>
 							
@@ -105,4 +112,67 @@
 	<!-- //wrap -->
 
 </body>
+
+<script type="text/javascript">
+
+	// 회원가입 버튼
+	$("#btn-submit").on("click", function(e) {
+		console.log("btn-submit 버튼 클릭");
+		
+		e.preventDefault();
+		
+		// 데이터 수집
+		let id = $("#input-uid").val();
+		let password = $("#input-pass").val();
+		let name = $("#input-name").val();
+		let gender = $("input[type=radio][name=gender]:checked").val();
+		let chkAgree = $("#chk-agree").is(':checked');
+		let chkId = $("#input-checked").val();
+		
+		if(id == "" || password == "" || name == "" || gender == undefined) {
+			alert("회원가입란을 확인해주세요.");
+		} else if(chkId == "false") {
+			alert("아이디 중복체크를 해주세요.");
+		} else if(!chkAgree) {
+			alert("서비스 약관에 동의해주세요.");
+		} else {
+			console.log("등록")
+			$("#join-Form").submit();
+		}
+	})
+	
+	// 중복체크 버튼
+	$("#btn-checkId").on("click", function() {
+		console.log("btn-checkId 버튼 클릭");
+		
+		let id = $("#input-uid").val();
+		
+		if(id != "") {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/user/checkId/",
+				type : "get",
+				/* contentType : "application/json", */
+				data: {id: id},
+				
+				dataType : "json",
+				success : function(result) {
+					if(result != id) {
+						$("#check-id").html("<span class='checkId-t'>사용 가능한 아이디입니다.</span>");
+						$("#input-checked").val("true");
+					} else {
+						$("#check-id").html("<span class='checkId-f'>이미 존재하는 아이디입니다.</span>");
+						$("#input-checked").val("false");
+					}
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+		} else {
+			alert("아이디를 입력해주세요.");
+		}
+	})
+	
+</script>
+
 </html>

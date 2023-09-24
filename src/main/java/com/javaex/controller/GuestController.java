@@ -22,7 +22,7 @@ public class GuestController {
 	
 	// 방명록 목록
 	@RequestMapping(value="/addList", method= { RequestMethod.GET, RequestMethod.POST})
-	public String main(Model model) {
+	public String addList(Model model) {
 		System.out.println("GuestController.addList()");
 		
 		List<GuestVo> guestList = guestService.guestSelect();

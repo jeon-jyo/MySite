@@ -20,6 +20,18 @@ public class UserService {
 		
 		return authUser;
 	}
+	
+	// 중복체크 ajax
+	public String checkId(UserVo userVo) {
+		System.out.println("UserService.checkId()");
+		
+		UserVo vo = userDao.checkId(userVo);
+		if(vo == null) {
+			return "";
+		} else {
+			return vo.getId();
+		}
+	}
 
 	// 회원가입
 	public void userInsert(UserVo userVo) {

@@ -24,6 +24,31 @@
 		]]>
 	</insert>
 	
+	<!-- 방명록 작성 ajax -->
+	<!-- 번호를 미리 받고 insert -->
+	<insert id="insertSelectKey" parameterType="com.javaex.vo.GuestVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">	
+			select seq_guest_id.NEXTVAL from dual
+		</selectKey>
+		<![CDATA[
+			INSERT INTO guest
+			VALUES (#{no}, #{name}, #{password}, #{content}, sysdate)
+		]]>
+	</insert>
+
+	<!-- 방명록 데이터 1개 ajax -->
+	<select id="selectGuestOne" parameterType="int" resultType="com.javaex.vo.GuestVo">
+		<![CDATA[
+			SELECT no
+				   ,name
+				   ,password
+				   ,content
+				   ,TO_CHAR(reg_date, 'YY-MM-DD HH24:MI') regDate
+			  FROM guest
+			 WHERE no = #{no}
+		]]>
+	</select>
+	
  	<!-- 방명록 삭제 -->
  	<delete id="guestDelete" parameterType="com.javaex.vo.GuestVo">
  		<![CDATA[
