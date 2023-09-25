@@ -26,7 +26,7 @@
 			<div id="content">
 			
 				<div id="content-head" class="clearfix">
-					<h3>일반방명록</h3>
+					<h3>ajax방명록</h3>
 					<div id="location">
 						<ul>
 							<li>홈</li>

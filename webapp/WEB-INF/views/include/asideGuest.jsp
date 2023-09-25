@@ -7,6 +7,7 @@
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/guest/addList">일반방명록</a></li>
 		<li><a href="${pageContext.request.contextPath}/api/guest/addList">ajax방명록</a></li>
+		<li><a href="${pageContext.request.contextPath}/api/guest/addList2">ajax방명록2</a></li>
 	</ul>
 </div>
 <!-- //aside -->

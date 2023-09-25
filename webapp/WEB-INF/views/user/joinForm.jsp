@@ -150,18 +150,35 @@
 		if(id != "") {
 			$.ajax({
 				url : "${pageContext.request.contextPath}/user/checkId/",
-				type : "get",
+				type : "post",
 				/* contentType : "application/json", */
 				data: {id: id},
 				
 				dataType : "json",
-				success : function(result) {
-					if(result != id) {
-						$("#check-id").html("<span class='checkId-t'>사용 가능한 아이디입니다.</span>");
-						$("#input-checked").val("true");
-					} else {
-						$("#check-id").html("<span class='checkId-f'>이미 존재하는 아이디입니다.</span>");
-						$("#input-checked").val("false");
+				success : function(jsonResult) {	// result -> jsonResult
+					/*
+						if(result != id) {
+							$("#check-id").html("<span class='checkId-t'>사용 가능한 아이디입니다.</span>");
+							$("#input-checked").val("true");
+						} else {
+							$("#check-id").html("<span class='checkId-f'>이미 존재하는 아이디입니다.</span>");
+							$("#input-checked").val("false");
+						}
+					*/
+
+					// 정상적인 통신 성공
+					if(jsonResult.result  == "success") {
+						if(jsonResult.data == true) {
+							$("#check-id").html("<span class='checkId-t'>사용 가능한 아이디입니다.</span>");
+							$("#input-checked").val("true");
+						} else if(jsonResult.data == false) {
+							$("#check-id").html("<span class='checkId-f'>이미 존재하는 아이디입니다.</span>");
+							$("#input-checked").val("false");
+						} else {
+							console.log("잘못된 처리");
+						}
+					} else if(jsonResult.result  == "fail") {	// 통신오류 내는 상황이 없어서 구현x
+						console.log("통신오류");
 					}
 				},
 				error : function(XHR, status, error) {

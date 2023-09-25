@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.UserService;
+import com.javaex.vo.JsonResultVo;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -77,15 +79,31 @@ public class UserController {
 		return "user/joinForm";
 	}
 	
+	// 중복체크 ajax2
+	@ResponseBody
+	@RequestMapping(value="/checkId2", method= { RequestMethod.GET, RequestMethod.POST})
+	public String checkId2(@ModelAttribute UserVo userVo) {
+		System.out.println("UserController.checkId2()");
+		
+		String result = userService.checkId2(userVo);
+
+		return result;
+	}
+	
 	// 중복체크 ajax
 	@ResponseBody
 	@RequestMapping(value="/checkId", method= { RequestMethod.GET, RequestMethod.POST})
-	public String checkId(@ModelAttribute UserVo userVo) {
+	public JsonResultVo checkId(@ModelAttribute UserVo userVo) {
 		System.out.println("UserController.checkId()");
 		
-		String result = userService.checkId(userVo);
-
-		return result;
+		// true 사용가능,  false 사용불가
+		boolean check = userService.checkId(userVo);
+		System.out.println(check);
+		
+		JsonResultVo jsonResultVo = new JsonResultVo();
+		jsonResultVo.success(check);
+		
+		return jsonResultVo;
 	}
 	
 	// 회원가입

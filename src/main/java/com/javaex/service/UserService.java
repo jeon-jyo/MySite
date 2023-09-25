@@ -21,15 +21,27 @@ public class UserService {
 		return authUser;
 	}
 	
-	// 중복체크 ajax
-	public String checkId(UserVo userVo) {
-		System.out.println("UserService.checkId()");
+	// 중복체크 ajax2
+	public String checkId2(UserVo userVo) {
+		System.out.println("UserService.checkId2()");
 		
 		UserVo vo = userDao.checkId(userVo);
 		if(vo == null) {
 			return "";
 		} else {
 			return vo.getId();
+		}
+	}
+	
+	// 중복체크 ajax
+	public boolean checkId(UserVo userVo) {
+		System.out.println("UserService.checkId()");
+		
+		UserVo vo = userDao.checkId(userVo);
+		if(vo == null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
