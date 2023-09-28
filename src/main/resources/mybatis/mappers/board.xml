@@ -42,7 +42,50 @@
 			ORDER BY b.no DESC
 		]]>
 	</select>
- 	
+	
+	<!-- 게시판 목록 - 페이징 -->
+	<select id="boardListPaging" parameterType="map" resultMap="BoardMap">
+		<![CDATA[
+			SELECT ort.rn
+			       ,ort.no
+			       ,ort.title
+			       ,ort.content
+			       ,ort.hit
+			       ,ort.regDate
+			       ,ort.userNo
+			       ,ort.userName
+			  FROM ( SELECT ROWNUM rn
+			                ,ot.no
+			                ,ot.title
+			                ,ot.content
+			                ,ot.hit
+			                ,ot.regDate
+			                ,ot.userNo
+			                ,ot.userName
+			           FROM (SELECT b.no
+			                        ,b.title
+			                        ,b.content
+			                        ,b.hit
+			                        ,TO_CHAR(b.reg_date, 'YY-MM-DD HH24:MI') regDate 
+			                        ,u.no userNo
+			                        ,u.name userName
+			                   FROM board b, users u
+			                  WHERE b.user_no = u.no
+			                  ORDER BY b.no ASC) ot
+			        ) ort
+			 WHERE ort.rn >= #{startRNum}
+			   AND ort.rn <= #{endRNum}
+		]]>
+	</select>
+
+	<!-- 전체 글갯수 -->
+	<select id="selectTotalCnt" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) count
+  			  FROM board
+		]]>
+	</select>
+
  	<!-- 게시판 작성 -->
 	<insert id="boardInsert" parameterType="com.javaex.vo.BoardVo">
 		<![CDATA[

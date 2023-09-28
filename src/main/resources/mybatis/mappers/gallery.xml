@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+
+	<resultMap id="UserMap" type="com.javaex.vo.UserVo">
+		<result column="userNo" property="no"></result>
+		<result column="id" property="id"></result>
+		<result column="password" property="password"></result>
+		<result column="userName" property="name"></result>
+		<result column="gender" property="gender"></result>
+	</resultMap>
+	
+	<resultMap id="GalleryMap" type="com.javaex.vo.GalleryVo">
+		<result column="no" property="no"></result>
+		<result column="content" property="content"></result>
+		<result column="filePath" property="filePath"></result>
+		<result column="orgName" property="orgName"></result>
+		<result column="saveName" property="saveName"></result>
+		<result column="fileSize" property="fileSize"></result>
+		<collection property="userNo" resultMap="UserMap"></collection>
+	</resultMap>
+	
+	<!-- 갤러리 목록 -->
+	<select id="galleryList" resultMap="GalleryMap">
+		<![CDATA[
+			SELECT g.no
+			       ,u.no userNo
+			       ,u.name userName
+			       ,g.content
+			       ,g.filePath
+			       ,g.orgName
+			       ,g.saveName
+			       ,g.fileSize
+			  FROM gallery g, users u
+			 WHERE g.user_no = u.no
+			 ORDER BY no DESC
+		]]>
+	</select>
+	
+	<!-- 파일 업로드 -->
+	<insert id="galleryUpload" parameterType="com.javaex.vo.GalleryVo">
+		<![CDATA[
+			INSERT INTO gallery
+			VALUES (seq_gallery_no.NEXTVAL, #{userNo.no}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
+		]]>
+	</insert>
+	
+</mapper>

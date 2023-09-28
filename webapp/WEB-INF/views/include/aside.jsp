@@ -7,6 +7,7 @@
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/board/list">일반게시판</a></li>
 		<li><a href="${pageContext.request.contextPath}/rBoard/list">댓글게시판</a></li>
+		<li><a href="${pageContext.request.contextPath}/board/listPaging">일반게시판페이징</a></li>
 	</ul>
 </div>
 <!-- //aside -->

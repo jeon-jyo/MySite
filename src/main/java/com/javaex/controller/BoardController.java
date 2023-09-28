@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +37,36 @@ public class BoardController {
 		
 		// 게시판 목록 - 포워드
 		return "board/list";
+	}
+	
+	// 게시판 목록 - 페이징
+	@RequestMapping(value="/listPaging", method= { RequestMethod.GET, RequestMethod.POST})
+	public String listPaging(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage, Model model) {
+		System.out.println("BoardController.listPaging()");
+
+		// boardService를 통해서 리스트를 가져온다 (boardDao 바로 X)
+		Map<String, Object> pageMap =  boardService.boardListPaging(crtPage);
+		System.out.println("pageMap : " + pageMap);
+		
+		model.addAttribute("pageMap", pageMap);
+		
+		// 게시판 목록 - 포워드
+		return "board/listPaging";
+	}
+	
+	// 게시판 목록 - 페이징 + 검색
+	@RequestMapping(value="/listPagingSearch", method= { RequestMethod.GET, RequestMethod.POST})
+	public String listPagingSearch(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage, Model model) {
+		System.out.println("BoardController.listPagingSearch()");
+
+		// boardService를 통해서 리스트를 가져온다 (boardDao 바로 X)
+		Map<String, Object> pageMap =  boardService.boardListPaging(crtPage);
+		System.out.println("pageMap : " + pageMap);
+		
+		model.addAttribute("pageMap", pageMap);
+		
+		// 게시판 목록 - 포워드
+		return "board/listPaging";
 	}
 	
 	// 게시판 검색
