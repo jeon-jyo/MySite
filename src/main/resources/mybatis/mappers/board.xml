@@ -43,7 +43,7 @@
 		]]>
 	</select>
 	
-	<!-- 게시판 목록 - 페이징 -->
+	<!-- 게시판 목록 - 페이징 + 검색 -->
 	<select id="boardListPaging" parameterType="map" resultMap="BoardMap">
 		<![CDATA[
 			SELECT ort.rn
@@ -54,36 +54,48 @@
 			       ,ort.regDate
 			       ,ort.userNo
 			       ,ort.userName
-			  FROM ( SELECT ROWNUM rn
-			                ,ot.no
-			                ,ot.title
-			                ,ot.content
-			                ,ot.hit
-			                ,ot.regDate
-			                ,ot.userNo
-			                ,ot.userName
-			           FROM (SELECT b.no
-			                        ,b.title
-			                        ,b.content
-			                        ,b.hit
-			                        ,TO_CHAR(b.reg_date, 'YY-MM-DD HH24:MI') regDate 
-			                        ,u.no userNo
-			                        ,u.name userName
-			                   FROM board b, users u
-			                  WHERE b.user_no = u.no
-			                  ORDER BY b.no ASC) ot
-			        ) ort
+			  FROM (SELECT ROWNUM rn
+			               ,ot.no
+			               ,ot.title
+			               ,ot.content
+			               ,ot.hit
+			               ,ot.regDate
+			               ,ot.userNo
+			               ,ot.userName
+			          FROM (SELECT b.no
+			                       ,b.title
+			                       ,b.content
+			                       ,b.hit
+			                       ,TO_CHAR(b.reg_date, 'YY-MM-DD HH24:MI') regDate 
+			                       ,u.no userNo
+			                       ,u.name userName
+			                  FROM board b, users u
+			                 WHERE b.user_no = u.no
+		]]>
+		<if test='keyword != ""'>
+			<![CDATA[
+				  AND b.title LIKE '%'||#{keyword}||'%'
+			]]>
+		</if>
+		<![CDATA[
+			                 ORDER BY b.no ASC) ot
+			       ) ort
 			 WHERE ort.rn >= #{startRNum}
 			   AND ort.rn <= #{endRNum}
 		]]>
 	</select>
 
-	<!-- 전체 글갯수 -->
-	<select id="selectTotalCnt" resultType="int">
+	<!-- 전체 글갯수 + 검색 -->
+	<select id="selectTotalCnt" parameterType="String" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) count
   			  FROM board
 		]]>
+		<if test='value != ""'>
+			<![CDATA[
+				  WHERE title LIKE '%'||#{keyword}||'%'
+			]]>
+		</if>
 	</select>
 
  	<!-- 게시판 작성 -->

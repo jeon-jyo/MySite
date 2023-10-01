@@ -31,5 +31,14 @@ public class GalleryDao {
 		
 		return count;
 	}
+
+	// 갤러리 상세보기 ajax
+	public GalleryVo galleryDetail(GalleryVo galleryVo) {
+		System.out.println("GalleryDao.galleryDetail()");
+		
+		GalleryVo vo = sqlSession.selectOne("gallery.galleryDetail", galleryVo);
+		
+		return vo;
+	}
 	
 }

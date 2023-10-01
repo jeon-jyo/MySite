@@ -127,8 +127,8 @@
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<c:if test="${authUser.name == galleryVo.userNo.name}">
-						<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
+					<c:if test="${authUser.name == delName}">
+						<button type="button" class="btn btn-danger" id="btnDel" data-delno="" data-delname="">삭제</button>
 					</c:if>
 				</div>
 			</div><!-- /.modal-content -->
@@ -169,22 +169,43 @@
 	$(".view").on("click", function() {
 		console.log("view 버튼 클릭");
 		
+		let $this = $(this);
+		let no = $this.data("no");
+		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/gallery/view/",
+			url : "${pageContext.request.contextPath}/gallery/detail/",
 			type : "post",
 			/* contentType : "application/json", */
-			data: {"no": },
+			data: {no: no},
 			
 			dataType : "json",
-			success : function(result) {
-
+			success : function(jsonResultVo) {
+				console.log(jsonResultVo);
+				
+				$("#viewModelImg").attr("src", "${pageContext.request.contextPath }/upload/"+jsonResultVo.data.saveName);
+				$("#viewModelContent").text(jsonResultVo.data.content);
+				
+				$this.data("delname", jsonResultVo.data.userNo.name);
+				$this.data("delno", jsonResultVo.data.no);
+				console.log($this.data("delname"));
+				console.log($this.data("delno"));
+				
+				$("#viewModal").modal("show");
 			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}
 		});
+	})
+	
+	// 이미지 삭제 버튼 클릭
+	$("#btnDel").on("click", function() {
+		console.log("btnDel 버튼 클릭");
 		
-		/* $("#viewModal").modal("show"); */
+		let $this = $(this);
+		console.log($this.data("delname"));
+		console.log($this.data("delno"));
+
 	})
 	
 </script>

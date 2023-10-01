@@ -30,7 +30,7 @@ public class ApiGuestController {
 	}
 	
 	// 방명록 전체 데이터 가져오기 (데이터만 전송) ajax
-	@ResponseBody
+	@ResponseBody	// 자바 객체를 HTTP 응답 본문의 객체로 변환
 	@RequestMapping(value="/list", method= { RequestMethod.GET, RequestMethod.POST})
 	public List<GuestVo> list() {
 		System.out.println("ApiGuestController.list()");

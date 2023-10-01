@@ -25,24 +25,20 @@ public class BoardDao {
 		return boardList;
 	}
 	
-	// 게시판 목록 - 페이징
-	public List<BoardVo> boardListPaging(int startRNum, int endRNum) {
+	// 게시판 목록 - 페이징 + 검색
+	public List<BoardVo> boardListPaging(Map<String, Object> listMap) {
 		System.out.println("BoardDao.boardListPaging()");
 		
-		Map<String, Integer> pageMap = new HashMap<String, Integer>();
-		pageMap.put("startRNum", startRNum);
-		pageMap.put("endRNum", endRNum);
-		
-		List<BoardVo> boardList = sqlSession.selectList("board.boardListPaging", pageMap);
+		List<BoardVo> boardList = sqlSession.selectList("board.boardListPaging", listMap);
 		
 		return boardList;
 	}
 	
-	// 전체 글갯수
-	public int selectTotalCnt() {
+	// 전체 글갯수 + 검색
+	public int selectTotalCnt(String keyword) {
 		System.out.println("BoardDao.selectTotalCnt()");
 		
-		int totalCount = sqlSession.selectOne("board.selectTotalCnt");
+		int totalCount = sqlSession.selectOne("board.selectTotalCnt", keyword);
 		
 		return totalCount;
 	}

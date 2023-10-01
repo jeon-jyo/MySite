@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.GalleryDao;
-import com.javaex.vo.FileVo;
 import com.javaex.vo.GalleryVo;
 
 @Service
@@ -32,7 +31,7 @@ public class GalleryService {
 	
 	// 파일 업로드
 	public void galleryUpload(GalleryVo galleryVo, MultipartFile file) {
-		System.out.println("FileService.galleryUpload()");
+		System.out.println("GalleryService.galleryUpload()");
 		
 		// 파일저장 디렉토리
 		String saveDir = "C:\\Jiho\\HiMedia\\JavaStudy\\upload";
@@ -84,6 +83,15 @@ public class GalleryService {
 		} else {
 			System.out.println("등록 실패");
 		}
+	}
+
+	// 갤러리 상세보기 ajax
+	public GalleryVo galleryDetail(GalleryVo galleryVo) {
+		System.out.println("GalleryService.galleryDetail()");
+		
+		GalleryVo vo = galleryDao.galleryDetail(galleryVo);
+		
+		return vo;
 	}
 	
 }

@@ -40,7 +40,7 @@
 				<div id="board">
 					<div id="list">
 						
-						<form action="${pageContext.request.contextPath}/board/search" method="get">
+						<form action="${pageContext.request.contextPath}/board/listPagingSearch" method="get">
 							<div class="form-group text-right">
 								<input type="text" name="keyword" value="">
 								
@@ -83,20 +83,20 @@
 						<div id="paging">
 							<ul>
 								<c:if test="${pageMap.prev }">
-									<li><a href="${pageContext.request.contextPath}/board/listPaging?crtPage=${pageMap.startPageBtnNo - 1}">◀</a></li>
+									<li><a href="${pageContext.request.contextPath}/board/listPagingSearch?crtPage=${pageMap.startPageBtnNo - 1}&keyword=${pageMap.keyword}">◀</a></li>
 								</c:if>
 								<c:forEach begin="${pageMap.startPageBtnNo }" end="${pageMap.endPageBtnNo }" step="1" var="page">
 									<c:choose>
 										<c:when test="${param.crtPage == page }">
-											<li class="active"><a href="${pageContext.request.contextPath}/board/listPaging?crtPage=${page}">${page }</a></li>
+											<li class="active"><a href="${pageContext.request.contextPath}/board/listPagingSearch?crtPage=${page}&keyword=${pageMap.keyword}">${page }</a></li>
 										</c:when>
 										<c:otherwise>
-											<li><a href="${pageContext.request.contextPath}/board/listPaging?crtPage=${page}">${page }</a></li>
+											<li><a href="${pageContext.request.contextPath}/board/listPagingSearch?crtPage=${page}&keyword=${pageMap.keyword}">${page }</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<c:if test="${pageMap.next }">
-									<li><a href="${pageContext.request.contextPath}/board/listPaging?crtPage=${pageMap.endPageBtnNo + 1}">▶</a></li>
+									<li><a href="${pageContext.request.contextPath}/board/listPagingSearch?crtPage=${pageMap.endPageBtnNo + 1}&keyword=${pageMap.keyword}">▶</a></li>
 								</c:if>
 							</ul>
 							<div class="clear"></div>

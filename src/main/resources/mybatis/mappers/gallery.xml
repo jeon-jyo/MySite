@@ -45,5 +45,23 @@
 			VALUES (seq_gallery_no.NEXTVAL, #{userNo.no}, #{content}, #{filePath}, #{orgName}, #{saveName}, #{fileSize})
 		]]>
 	</insert>
+
+	<!-- 갤러리 상세보기 ajax -->
+	<select id="galleryDetail" parameterType="com.javaex.vo.GalleryVo" resultMap="GalleryMap">
+		<![CDATA[
+			SELECT g.no
+			       ,u.no userNo
+			       ,u.name userName
+			       ,g.content
+			       ,g.filePath
+			       ,g.orgName
+			       ,g.saveName
+			       ,g.fileSize
+			  FROM gallery g, users u
+			 WHERE g.user_no = u.no
+			   AND g.no = #{no}
+			 ORDER BY no DESC
+		]]>
+	</select>
 	
 </mapper>
