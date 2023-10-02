@@ -48,7 +48,7 @@
 						<ul id="viewArea">
 							<!-- 이미지반복영역 -->
 							<c:forEach items="${galleryList }" var="galleryVo">
-								<li>
+								<li id="t${galleryVo.no }">
 									<div class="view" data-no="${galleryVo.no }">
 										<img class="imgItem" src="${pageContext.request.contextPath }/upload/${galleryVo.saveName }">
 										<div class="imgWriter">작성자: <strong>${galleryVo.userNo.name }</strong></div>
@@ -127,8 +127,8 @@
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<c:if test="${authUser.name == delName}">
-						<button type="button" class="btn btn-danger" id="btnDel" data-delno="" data-delname="">삭제</button>
+					<c:if test="${!empty authUser.no}">
+						<input type="hidden" name="authUserNo" value="${authUser.no}" >
 					</c:if>
 				</div>
 			</div><!-- /.modal-content -->
@@ -185,11 +185,13 @@
 				$("#viewModelImg").attr("src", "${pageContext.request.contextPath }/upload/"+jsonResultVo.data.saveName);
 				$("#viewModelContent").text(jsonResultVo.data.content);
 				
-				$this.data("delname", jsonResultVo.data.userNo.name);
-				$this.data("delno", jsonResultVo.data.no);
-				console.log($this.data("delname"));
-				console.log($this.data("delno"));
+				let authUserNo = $('[name="authUserNo"]').val();
+				let btnDel = $(".btn-danger").length;
 				
+				if(authUserNo == jsonResultVo.data.userNo.no && btnDel == 0) {
+					let str = '<button type="button" class="btn btn-danger" id="btnDel" data-delno="' + jsonResultVo.data.no + '">삭제</button>';
+					$(".modal-footer").append(str);
+				}
 				$("#viewModal").modal("show");
 			},
 			error : function(XHR, status, error) {
@@ -199,13 +201,31 @@
 	})
 	
 	// 이미지 삭제 버튼 클릭
-	$("#btnDel").on("click", function() {
-		console.log("btnDel 버튼 클릭");
+	$(".modal-footer").on("click", "#btnDel",function() {
+		console.log("modal-footer의 btnDel 버튼 클릭");
 		
 		let $this = $(this);
-		console.log($this.data("delname"));
-		console.log($this.data("delno"));
-
+		let no = $this.data("delno");
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/gallery/delete/",
+			type : "get",
+			/* contentType : "application/json", */
+			data: {no: no},
+			
+			dataType : "json",
+			success : function(galleryVo) {
+				if(galleryVo.no = no) {
+					console.log("삭제성공");
+					
+					$("#t" + no).remove();
+					$("#viewModal").modal("hide");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
 	})
 	
 </script>

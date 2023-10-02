@@ -93,5 +93,19 @@ public class GalleryService {
 		
 		return vo;
 	}
+
+	// 갤러리 삭제 ajax
+	public int galleryDelete(GalleryVo galleryVo) {
+		System.out.println("GalleryService.galleryDelete()");
+		
+		int count = galleryDao.galleryDelete(galleryVo);
+		if(count == 1) {
+			System.out.println("삭제 성공");
+		} else {
+			System.out.println("삭제 실패");
+		}
+		
+		return count;
+	}
 	
 }

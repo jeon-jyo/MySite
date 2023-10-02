@@ -64,4 +64,12 @@
 		]]>
 	</select>
 	
+	<!-- 갤러리 삭제 ajax -->
+ 	<delete id="galleryDelete" parameterType="com.javaex.vo.GalleryVo">
+ 		<![CDATA[
+			DELETE FROM gallery
+			 WHERE no = #{no}
+		]]>
+ 	</delete>
+	
 </mapper>

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +58,7 @@ public class GalleryController {
 	// 갤러리 상세보기 ajax
 	@ResponseBody
 	@RequestMapping(value="/detail", method= { RequestMethod.GET, RequestMethod.POST})
-	public JsonResultVo detail(@ModelAttribute GalleryVo galleryVo, Model model) {
+	public JsonResultVo detail(@ModelAttribute GalleryVo galleryVo) {
 		System.out.println("GalleryController.detail()");
 		
 		GalleryVo vo = galleryService.galleryDetail(galleryVo);
@@ -68,6 +67,22 @@ public class GalleryController {
 		jsonResultVo.success(vo);
 		
 		return jsonResultVo;
+	}
+	
+	// 갤러리 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value="/delete", method= {RequestMethod.GET, RequestMethod.POST})
+	public GalleryVo delete(@ModelAttribute GalleryVo galleryVo) {
+		System.out.println("GalleryController.delete()");
+		
+		GalleryVo vo = null;
+		
+		int count = galleryService.galleryDelete(galleryVo);
+		if(count == 1) {
+			return galleryVo;
+		} else {
+			return vo;
+		}
 	}
 	
 }

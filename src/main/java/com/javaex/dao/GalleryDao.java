@@ -41,4 +41,13 @@ public class GalleryDao {
 		return vo;
 	}
 	
+	// 갤러리 삭제 ajax
+	public int galleryDelete(GalleryVo galleryVo) {
+		System.out.println("GalleryDao.galleryDelete()");
+		
+		int count = sqlSession.delete("gallery.galleryDelete", galleryVo);
+		
+		return count;
+	}
+	
 }
